@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="#{facesContext.externalContext.requestContextPath}/files/stylesheets/default.css" rel="stylesheet" type="text/css" />
+		<title>CDI Travel ~ <ui:insert name="title" /></title>
+	</h:head>
+
+	<h:body>
+		<div id="header">
+			<div id="logo">
+			<h1>
+				<h:panelGroup rendered="#{cvmg.conversation.transient}">
+					<a href="#{facesContext.externalContext.requestContextPath}/">CDI Travel</a>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{not cvmg.conversation.transient}">
+					<a href="#{facesContext.externalContext.requestContextPath}/index.faces?cid=#{cvmg.conversation.id}">CDI Travel</a>
+				</h:panelGroup>
+			</h1>
+				<h2>You can <span style="text-decoration: underline">depend</span> on us! :)</h2>
+			</div>
+			<h:form id="formMenu">
+				<div id="menu">
+					<ul>
+						<li><h:commandLink action="index.faces" accesskey="H" title="Home"><b>H</b>ome</h:commandLink></li>
+						<li><h:commandLink action="addPackages.faces" accesskey="A" title="Add"><b>A</b>dd</h:commandLink></li>
+						<li><h:commandLink action="listPackages.faces" accesskey="L" title="List"><b>L</b>ist</h:commandLink></li>
+						<li>
+								<h:commandLink action="#{searchPackages.begin}" accesskey="S" title="Search" target="_blank" rendered="#{cvmg.conversation.transient}"><b>S</b>earch</h:commandLink>
+								<h:panelGroup rendered="#{not cvmg.conversation.transient}"><a href="javascript:window.close();" accesskey="X" title="[X] Close">[<b>X</b>] Close</a></h:panelGroup>
+						</li>
+						<li><h:commandLink action="sendMessage.faces" accesskey="C" title="Contact Us"><b>C</b>ontact Us</h:commandLink></li>
+					</ul>
+				</div>
+			</h:form>
+		</div>
+		<div id="page">
+			<div id="content">
+				<h:form id="globalMessages">
+					<h:messages id="messages" showDetail="false" globalOnly="true" />
+				</h:form>
+				<ui:insert name="contents">Blank page.</ui:insert>
+			</div>
+			<!-- end #content -->
+			<div id="sidebar">
+			<h:form id="conversationForm">
+				<div id="news" class="boxed1">
+					<h2 class="title">Your session:</h2>
+					<div class="content">
+						<ul>
+							<li><strong>Conversation:</strong><br /><h:outputText value="#{cvmg.conversation}" /></li>
+							<h:panelGroup rendered="#{cvmg.conversation.transient}">
+								<li><h:commandLink action="#{cvmg.beginConversation}" value="Begin Conversation" /></li>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{not cvmg.conversation.transient}">
+								<li><h:commandLink action="#{cvmg.endConversation}" value="End Conversation" /></li>
+								<li><a href="index.faces">New Conversation</a></li>
+							</h:panelGroup>
+							<li><strong>Open conversations:</strong>
+								<h:dataTable value="#{listConversations.list}" var="id">
+									<h:column><a href="index.faces?cid=#{id}"><h:outputText value="ID #{id}" /></a></h:column>
+								</h:dataTable>
+							</li>
+							<li><strong>Search count:</strong><h:outputText value=" #{showNumberOfSearches.qty}" /></li>
+						</ul>
+					</div>
+				</div>
+			</h:form>
+			</div>
+			<!-- end #sidebar -->
+			<div style="clear: both; height: 1px;"></div>
+		</div>
+		<!-- end #page -->
+		<div id="footer">
+			<p>CDI Travel :: Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>
+		</div>
+	</h:body>
+</html>

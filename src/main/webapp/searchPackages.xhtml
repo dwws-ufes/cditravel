@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/files/templates/decorator.xhtml">
+	<ui:define name="title">Search Tour Packages</ui:define>
+
+	<ui:define name="contents">
+		<h1>Search Tour Packages</h1>
+
+		<h:form id="searchPackages">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="name" value="Name:" />
+				<h:inputText id="name" value="#{searchPackages.name}" size="20" />
+				<h:commandButton action="#{searchPackages.search}" value="Search" />
+			</h:panelGrid>
+			
+			<p>
+			<h:outputText value="No results." rendered="#{(not empty searchPackages.name) and (searchPacakges.searchResults.isEmpty())}" />
+			<h:dataTable value="#{searchPackages.searchResults}" var="pack" rendered="#{(searchPackages.searchResults != null) and (not searchPackages.searchResults.isEmpty())}" border="1" cellspacing="0">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:outputText value="#{pack.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Begin</f:facet>
+					<h:outputText value="#{pack.begin}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">End</f:facet>
+					<h:outputText value="#{pack.end}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Price</f:facet>
+					<h:outputText value="#{pack.price}"><f:convertNumber type="currency" locale="en_US" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Add</f:facet>
+					<center><h:commandButton action="#{searchPackages.add(pack.id)}" image="/files/images/add.png" /></center>
+				</h:column>
+			</h:dataTable>
+			</p>
+
+			<p><hr /></p>
+
+			<h2>Selected packages:</h2>
+
+			<p>
+			<h:outputText value="No package selected yet." rendered="#{searchPackages.selectedPackages.isEmpty()}" />
+			<h:dataTable value="#{searchPackages.selectedPackages}" var="pack" rendered="#{not searchPackages.selectedPackages.isEmpty()}" border="1" cellspacing="0">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:outputText value="#{pack.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Begin</f:facet>
+					<h:outputText value="#{pack.begin}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">End</f:facet>
+					<h:outputText value="#{pack.end}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Price</f:facet>
+					<h:outputText value="#{pack.price}"><f:convertNumber type="currency" locale="en_US" /></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remove</f:facet>
+					<center><h:commandButton action="#{searchPackages.remove(pack.id)}" image="/files/images/remove.png" /></center>
+				</h:column>
+			</h:dataTable>
+			</p>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/files/templates/decorator.xhtml">
+	<ui:define name="titulo">Add New Tour Package</ui:define>
+
+	<ui:define name="contents">
+		<h1>Add New Tour Package</h1>
+
+		<h:form id="addPackage">
+			<p>
+				<h:outputText value="No package added yet." rendered="#{addPackage.packages.size() == 0}" />
+				<h:dataTable value="#{addPackage.packages}" var="pack" rendered="#{addPackage.packages.size() > 0}" border="1" cellspacing="0">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{pack.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">begin</f:facet>
+						<h:outputText value="#{pack.begin}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">End</f:facet>
+						<h:outputText value="#{pack.end}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+					</h:column>
+				</h:dataTable>
+			</p>
+
+			<hr />
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="name">Name:</h:outputLabel>
+					<h:inputText id="name" value="#{addPackage.pack.name}" size="30" />
+					<h:outputLabel for="begin">Begin:</h:outputLabel>
+					<h:inputText id="begin" value="#{addPackage.pack.begin}" size="10"><f:convertDateTime pattern="MM/dd/yyyy" /></h:inputText>
+					<h:outputLabel for="end">End:</h:outputLabel>
+					<h:inputText id="end" value="#{addPackage.pack.end}" size="10"><f:convertDateTime pattern="MM/dd/yyyy" /></h:inputText>
+					<h:outputLabel for="description">Description:</h:outputLabel>
+					<h:inputTextarea id="description" value="#{addPackage.pack.description}" cols="30" rows="5" />
+					<h:outputLabel for="price">Price:</h:outputLabel>
+					<h:inputText id="price" value="#{addPackage.pack.price}" size="10" />
+				</h:panelGrid>
+			</p>
+
+			<p><h:commandButton style="float: right" value="Add" action="#{addPackage.add}" /></p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

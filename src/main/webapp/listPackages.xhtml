@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/files/templates/decorator.xhtml">
+	<ui:define name="title">Add New Tour Package</ui:define>
+
+	<ui:define name="contents">
+		<h1>Our Tour Packages</h1>
+
+		<h:form id="listPackages">
+			<p>
+				<h:outputText value="We are currently not offering any tour package." rendered="#{lp.packages.size() == 0}" />
+				<h:dataTable value="#{lp.packages}" var="pack" rendered="#{lp.packages.size() > 0}" border="1" cellspacing="0">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{pack.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Begin</f:facet>
+						<h:outputText value="#{pack.begin}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">End</f:facet>
+						<h:outputText value="#{pack.end}"><f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Price</f:facet>
+						<h:outputText value="#{pack.price}"><f:convertNumber type="currency" locale="en_US" /></h:outputText>
+					</h:column>
+				</h:dataTable>
+			</p>
+		</h:form>
+
+		<p>Average price of our packages: <h:outputText value="#{lp.averagePrice}" /></p>
+
+		<p>Number of packages currently offered: <h:outputText value="#{lp.packageCount}" /></p>
+
+	</ui:define>
+</ui:composition>
