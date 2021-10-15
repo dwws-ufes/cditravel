@@ -37,6 +37,23 @@
 					</ul>
 				</div>
 			</h:form>
+            <script>
+            jsf.ajax.addOnEvent(function(data) {
+                   var ajaxstatus = data.status;
+                   var ajaxloader = document.getElementById("ajaxloader");
+                   switch (ajaxstatus) {
+                       case "begin":
+                           ajaxloader.style.display = 'block';
+                           break;
+                       case "complete":
+                           ajaxloader.style.display = 'none';
+                           break;
+                       case "success":
+                           break;
+                   }
+               });
+            </script>
+            <img id="ajaxloader" src="#{facesContext.externalContext.requestContextPath}/files/images/ajaxloader.gif" style="display: none; float: right;" />
 		</div>
 		<div id="page">
 			<div id="content">
