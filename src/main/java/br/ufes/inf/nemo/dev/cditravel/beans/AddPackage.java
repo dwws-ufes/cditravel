@@ -13,6 +13,11 @@ import javax.enterprise.inject.New;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
 import br.ufes.inf.nemo.dev.cditravel.domain.TourPackage;
 import br.ufes.inf.nemo.dev.cditravel.persistence.TourPackageDAO;
 
@@ -69,4 +74,35 @@ public class AddPackage {
     pack = new TourPackage();
     return null;
   }
+  
+public void suggestDescription() {
+  String name = pack.getName();
+  if (name != null && name.length() > 3) {
+    String query = "PREFIX dbo: <http://dbpedia.org/ontology/>\n" + 
+        "PREFIX dbp: <http://dbpedia.org/property/>\n" + 
+        "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+        "SELECT ?desc\n" + 
+        "WHERE {\n" + 
+        "  ?uri a dbo:City ;\n" + 
+        "          dbp:name \"Rio de Janeiro\"@en ;\n" + 
+        "          rdfs:comment ?desc .\n" + 
+        "FILTER (langMatches(lang(?desc), \"EN\"))\n" + 
+        "}";
+    
+    QueryExecution queryExecution = 
+        QueryExecutionFactory.sparqlService("https://dbpedia.org/sparql", query);
+    ResultSet results = queryExecution.execSelect();
+    
+    if (results.hasNext()) {
+      QuerySolution querySolution = results.next();
+      Literal literal = querySolution.getLiteral("desc");
+      pack.setDescription("" + literal.getValue());
+    }
+  }
 }
+}
+
+
+
+
+

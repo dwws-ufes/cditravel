@@ -13,6 +13,7 @@
 		<h:form id="addPackage">
 			<p>
 				<h:outputText value="No package added yet." rendered="#{addPackage.packages.size() == 0}" />
+                <a style="float: right;" href="#{facesContext.externalContext.requestContextPath}/data/tourpackages">RDF/XML</a>
 				<h:dataTable value="#{addPackage.packages}" var="pack" rendered="#{addPackage.packages.size() > 0}" border="1" cellspacing="0">
 					<h:column>
 						<f:facet name="header">Name</f:facet>
@@ -34,7 +35,10 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:outputLabel for="name">Name:</h:outputLabel>
-					<h:inputText id="name" value="#{addPackage.pack.name}" size="30" />
+					<h:inputText id="name" value="#{addPackage.pack.name}" size="30">
+                       <f:ajax event="blur" listener="#{addPackage.suggestDescription}"
+                          execute="@this" render="description" />
+                    </h:inputText>
 					<h:outputLabel for="begin">Begin:</h:outputLabel>
 					<h:inputText id="begin" value="#{addPackage.pack.begin}" size="10"><f:convertDateTime pattern="MM/dd/yyyy" /></h:inputText>
 					<h:outputLabel for="end">End:</h:outputLabel>
